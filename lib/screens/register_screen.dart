@@ -1,3 +1,4 @@
+// lib/screens/register_screen.dart
 import 'package:flutter/material.dart';
 import '../routes/app_routes.dart';
 
@@ -6,252 +7,343 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final Color primaryColor = const Color(0xFF2C3E50);
+    final Color secondaryColor = const Color(0xFFE74C3C);
+    final Color surfaceColor = const Color(0xFFF8F9FA);
+    final Color textColorPrimary = const Color(0xFF2C3E50);
+    final Color textColorSecondary = const Color(0xFF7F8C8D);
+
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(
-            child: Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundColor: const Color(0xFFFF7A52),
-                        child: Image.asset('asset/logo.png', height: 30),
-                      ),
-                      const SizedBox(height: 20),
-                      const Text(
-                        'Welcome',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF1A2B4C),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        'Sign up to continue',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                      Row(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                primaryColor.withOpacity(0.03),
+                Colors.white,
+              ],
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(
+              child: Card(
+                elevation: 8,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                color: Colors.white,
+                child: Container(
+                  width: double.infinity,
+                  constraints: const BoxConstraints(maxWidth: 400),
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(context, '/login');
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.black,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
+                          Center(
+                            child: CircleAvatar(
+                              radius: 40,
+                              backgroundColor: primaryColor,
+                              child: const Icon(
+                                Icons.storefront,
+                                color: Colors.white,
+                                size: 32,
                               ),
-                              child: const Text('Sign In'),
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Déjà sur RegisterScreen, on peut laisser vide ou désactiver
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF1A2B4C),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
+                          const SizedBox(height: 24),
+                          Text(
+                            'Create Account',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w700,
+                              color: textColorPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Sign up to continue',
+                            textAlign: TextAlign.center,
+                            style: theme.textTheme.bodyLarge?.copyWith(
+                              color: textColorSecondary,
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+
+                          Row(
+                            children: [
+                              Expanded(
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(context, '/login');
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    side: BorderSide(color: primaryColor, width: 1),
+                                    foregroundColor: primaryColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                  ),
+                                  child: const Text('Sign In'),
                                 ),
                               ),
-                              child: const Text('Register'),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: OutlinedButton(
+                                  onPressed: () {},
+                                  style: OutlinedButton.styleFrom(
+                                    backgroundColor: primaryColor,
+                                    foregroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                  ),
+                                  child: const Text('Register'),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 32),
+
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'First Name',
+                              prefixIcon: Icon(Icons.person_outline, color: primaryColor),
+                              hintText: 'Your first name',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: surfaceColor,
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                              labelStyle: TextStyle(color: primaryColor.withOpacity(0.7)),
+                            ),
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Last Name',
+                              prefixIcon: Icon(Icons.person_outline, color: primaryColor),
+                              hintText: 'Your last name',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: surfaceColor,
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                              labelStyle: TextStyle(color: primaryColor.withOpacity(0.7)),
+                            ),
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                              prefixIcon: Icon(Icons.email_outlined, color: primaryColor),
+                              hintText: 'your@email.com',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: surfaceColor,
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                              labelStyle: TextStyle(color: primaryColor.withOpacity(0.7)),
+                            ),
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          // ✔️ corrected block
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'phone number ',
+                              prefixIcon: Icon(Icons.phone, color: primaryColor),
+                              hintText: '555 555 555 ',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: surfaceColor,
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                              labelStyle: TextStyle(color: primaryColor.withOpacity(0.7)),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Location ID',
+                              prefixIcon: Icon(Icons.location_on, color: primaryColor),
+                              hintText: 'Enter location ID',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: surfaceColor,
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                              labelStyle: TextStyle(color: primaryColor.withOpacity(0.7)),
+                            ),
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          TextFormField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                              prefixIcon: Icon(Icons.lock_outline, color: primaryColor),
+                              suffixIcon: Icon(Icons.visibility_outlined, color: primaryColor),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: surfaceColor,
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                              labelStyle: TextStyle(color: primaryColor.withOpacity(0.7)),
+                            ),
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          TextFormField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              labelText: 'Confirm Password',
+                              prefixIcon: Icon(Icons.lock_outline, color: primaryColor),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: surfaceColor,
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                              labelStyle: TextStyle(color: primaryColor.withOpacity(0.7)),
+                            ),
+                          ),
+
+                          const SizedBox(height: 24),
+
+                          SizedBox(
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushReplacementNamed(context, '/home-screen');
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: primaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                elevation: 0,
+                              ),
+                              child: const Text(
+                                'Create Account',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          const SizedBox(height: 24),
+
+                          Row(
+                            children: [
+                              Expanded(child: Divider(color: Colors.grey[300])),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: Text(
+                                  'or sign up with',
+                                  style: TextStyle(
+                                    color: textColorSecondary,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                              Expanded(child: Divider(color: Colors.grey[300])),
+                            ],
+                          ),
+
+                          const SizedBox(height: 24),
+
+                          Row(
+                            children: [
+                              Expanded(
+                                child: OutlinedButton.icon(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.g_mobiledata_outlined,
+                                    color: Color(0xFFDB4437),
+                                  ),
+                                  label: Text(
+                                    'Google',
+                                    style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  style: OutlinedButton.styleFrom(
+                                    foregroundColor: primaryColor,
+                                    side: BorderSide(color: Colors.grey[300]!, width: 1),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 14),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 24),
+
+                          Text(
+                            'By registering, you agree to our Terms of Use and Privacy Policy.',
+                            textAlign: TextAlign.center,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: textColorSecondary,
+                              fontSize: 12,
+                            ),
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(context, '/home-screen');
+                            },
+                            child: Text(
+                              'Continue without account',
+                              style: TextStyle(
+                                color: primaryColor,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 30),
-
-                      // First Name
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'First Name',
-                          prefixIcon: const Icon(Icons.person_outline, size: 20),
-                          hintText: 'Your first name',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey[50],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Last Name
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Last Name',
-                          prefixIcon: const Icon(Icons.person_outline, size: 20),
-                          hintText: 'Your last name',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey[50],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Email
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Email',
-                          prefixIcon: const Icon(Icons.email_outlined, size: 20),
-                          hintText: 'your@email.com',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey[50],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Birth Date
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Birth Date',
-                          prefixIcon: const Icon(Icons.calendar_today, size: 20),
-                          hintText: 'DD/MM/YYYY',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey[50],
-                        ),
-                        onTap: () async {
-                          DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime.now(),
-                          );
-                          if (pickedDate != null) {
-                            // Vous pouvez mettre à jour le champ ici via un controller
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Location (simulé comme input text, mais idéalement devrait être un dropdown ou map picker)
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Location ID',
-                          prefixIcon: const Icon(Icons.location_on, size: 20),
-                          hintText: 'Enter location ID or select location',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey[50],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Loyalty Tier (optionnel)
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Loyalty Tier (optional)',
-                          prefixIcon: const Icon(Icons.star_border, size: 20),
-                          hintText: 'e.g., Bronze, Silver, Gold',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey[50],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Password
-                      TextFormField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          prefixIcon: const Icon(Icons.lock_outline, size: 20),
-                          suffixIcon: const Icon(Icons.visibility_outlined, size: 20),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey[50],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Confirm Password
-                      TextFormField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: 'Confirm Password',
-                          prefixIcon: const Icon(Icons.lock_outline, size: 20),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey[50],
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-
-                      // Create Account Button
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Ici, vous devriez valider les champs et appeler une API d'inscription
-                            // Pour l'instant, redirection vers home-screen
-                            Navigator.pushReplacementNamed(context, '/home-screen');
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF1A2B4C),
-                            padding: const EdgeInsets.symmetric(vertical: 15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          child: const Text('Create Account'),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'By registering, you agree to our Terms of Use and Privacy Policy.',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Colors.grey[600],
-                              fontSize: 12,
-                            ),
-                      ),
-                      const SizedBox(height: 20),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/home-screen');
-                        },
-                        child: const Text(
-                          'Continue without account',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),

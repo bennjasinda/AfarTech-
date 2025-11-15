@@ -1,4 +1,7 @@
+// lib/screens/edit_profile_screen.dart
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -9,18 +12,16 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
-  
-  // Contrôleur pour les champs
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _birthDateController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
+  XFile? _selectedImage;
 
   @override
   void initState() {
     super.initState();
-    // Remplir avec les données existantes (à adapter avec votre backend)
     _firstNameController.text = 'John';
     _lastNameController.text = 'Doe';
     _emailController.text = 'john.doe@email.com';
@@ -28,8 +29,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _locationController.text = 'Paris, France';
   }
 
+  Future<void> _pickImage(ImageSource source) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: source);
+    if (image != null) {
+      setState(() {
+        _selectedImage = image;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Color primaryColor = const Color(0xFF2C3E50);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),
@@ -43,13 +56,75 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           key: _formKey,
           child: ListView(
             children: [
-              // Champ Prénom
+              Center(
+                child: Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundColor: Colors.grey[300],
+                      backgroundImage: _selectedImage != null
+                          ? FileImage(File(_selectedImage!.path)) as ImageProvider
+                          : const AssetImage('asset/default_profile.png') as ImageProvider, 
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        height: 35,
+                        width: 35,
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          icon: const Icon(Icons.camera_alt, color: Colors.white, size: 20),
+                          onPressed: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SafeArea(
+                                  child: Wrap(
+                                    children: [
+                                      ListTile(
+                                        leading: const Icon(Icons.photo_library),
+                                        title: const Text('Choose from Gallery'),
+                                        onTap: () {
+                                          _pickImage(ImageSource.gallery);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      ListTile(
+                                        leading: const Icon(Icons.camera_alt),
+                                        title: const Text('Take a Photo'),
+                                        onTap: () {
+                                          _pickImage(ImageSource.camera);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 30),
               TextFormField(
                 controller: _firstNameController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'First Name',
-                  prefixIcon: Icon(Icons.person_outline),
-                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.person_outline, color: primaryColor),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -59,14 +134,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 },
               ),
               const SizedBox(height: 16),
-
-              // Champ Nom
               TextFormField(
                 controller: _lastNameController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Last Name',
-                  prefixIcon: Icon(Icons.person_outline),
-                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.person_outline, color: primaryColor),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -76,14 +153,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 },
               ),
               const SizedBox(height: 16),
-
-              // Champ Email
               TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Email',
-                  prefixIcon: Icon(Icons.email_outlined),
-                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.email_outlined, color: primaryColor),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -96,14 +175,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 },
               ),
               const SizedBox(height: 16),
-
-              // Champ Date de naissance
               TextFormField(
                 controller: _birthDateController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Birth Date',
-                  prefixIcon: Icon(Icons.calendar_today),
-                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.calendar_today, color: primaryColor),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
                 ),
                 readOnly: true,
                 onTap: () async {
@@ -121,38 +202,37 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 },
               ),
               const SizedBox(height: 16),
-
-              // Champ Location
               TextFormField(
                 controller: _locationController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Location',
-                  prefixIcon: Icon(Icons.location_on_outlined),
-                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.location_on_outlined, color: primaryColor),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
                 ),
               ),
               const SizedBox(height: 30),
-
-              // Boutons Save et Cancel
               Row(
                 children: [
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          // Ici, vous envoyez les données au backend
-                          // Exemple : updateUserProfile()
+                          // TODO: Envoyer les données et l'image au backend
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Profile updated successfully!')),
                           );
-                          Navigator.pop(context); // Retour à l'écran précédent
+                          Navigator.pop(context);
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1A2B4C),
+                        backgroundColor: primaryColor,
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                       child: const Text('Save'),
@@ -162,12 +242,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.pop(context); // Annuler et revenir en arrière
+                        Navigator.pop(context);
                       },
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                       child: const Text('Cancel'),

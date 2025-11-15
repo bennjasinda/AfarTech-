@@ -1,3 +1,4 @@
+// lib/widgets/bottom_nav_bar.dart
 import 'package:flutter/material.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -6,9 +7,11 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color primaryColor = const Color(0xFF2C3E50);
+
     return BottomNavigationBar(
       currentIndex: currentIndex,
-      selectedItemColor: const Color(0xFF1A2B4C),
+      selectedItemColor: primaryColor,
       unselectedItemColor: Colors.grey[600],
       showSelectedLabels: true,
       showUnselectedLabels: true,
@@ -35,7 +38,6 @@ class BottomNavBar extends StatelessWidget {
           label: 'Account',
         ),
       ],
-      
       onTap: (index) {
         String routeName;
         switch (index) {
@@ -55,9 +57,8 @@ class BottomNavBar extends StatelessWidget {
             routeName = '/account_screen';
             break;
           default:
-            routeName = '/'; 
+            routeName = '/';
         }
-       
         if (ModalRoute.of(context)?.settings.name != routeName) {
           Navigator.pushNamed(context, routeName);
         }

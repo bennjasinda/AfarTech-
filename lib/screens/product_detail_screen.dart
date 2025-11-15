@@ -22,192 +22,209 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = const Color(0xFF2C3E50); // Couleur Register
+    final dangerColor = const Color(0xFFE74C3C); // couleur du -%
+    final secondaryColor = const Color(0xFF0096FF); // bleu moderne
+    final surfaceColor = const Color(0xFFF5F7FA);
+    final textColorPrimary = const Color(0xFF1A2B4C);
+    final textColorSecondary = const Color(0xFF6B7280);
+
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(name),
-        
+        title: Text(
+          'Product Details',
+          style: TextStyle(
+            color: primaryColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: primaryColor),
       ),
-      body: ListView(
+
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        children: [
-          
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Image.asset(
-              imageUrl,
-              height: 300,
-              fit: BoxFit.contain,
-              alignment: Alignment.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            /// ---------------- IMAGE ----------------
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.network(
+                imageUrl,
+                height: 260,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
+            const SizedBox(height: 16),
 
-        
-          Text(
-            name,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            children: [
-              Text(
-                '\$${price.toStringAsFixed(2)}',
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+            /// ---------------- TITLE ----------------
+            Text(
+              name,
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: textColorPrimary,
               ),
-              const SizedBox(width: 8),
-              Text(
-                '\$${originalPrice.toStringAsFixed(2)}',
-                style: const TextStyle(
-                  decoration: TextDecoration.lineThrough,
-                  color: Colors.grey,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.orange,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  '-$discount%',
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
+            ),
+            const SizedBox(height: 8),
 
-       
-          Row(
-            children: [
-              Icon(Icons.star, color: Colors.yellow[700], size: 20),
-              const SizedBox(width: 4),
-              Text(
-                '$rating ($reviewCount reviews)',
-                style: const TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-            ],
-          ),
-          const SizedBox(height: 30),
-
-      
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Added "$name" to cart!'),
-                    action: SnackBarAction(
-                      label: 'View Cart',
-                      onPressed: () {
-                      
-                      },
-                    ),
+            /// ---------------- PRICE ----------------
+            Row(
+              children: [
+                Text(
+                  "\$${price.toStringAsFixed(2)}",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: primaryColor,
                   ),
-                );
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  "\$${originalPrice.toStringAsFixed(2)}",
+                  style: TextStyle(
+                    color: textColorSecondary,
+                    fontSize: 16,
+                    decoration: TextDecoration.lineThrough,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: dangerColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    "-$discount%",
+                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            /// ---------------- RATING ----------------
+            Row(
+              children: [
+                const Icon(Icons.star, color: Colors.amber, size: 22),
+                const SizedBox(width: 4),
+                Text(
+                  "$rating ($reviewCount reviews)",
+                  style: TextStyle(color: textColorSecondary),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            /// ---------------- DESCRIPTION ----------------
+            Text(
+              "Description",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: textColorPrimary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "This is a high-quality product designed to give you the best performance.",
+              style: TextStyle(color: textColorSecondary, fontSize: 15),
+            ),
+            const SizedBox(height: 24),
+
+            /// ---------------- PHONE FIELD ----------------
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'phone number ',
+                prefixIcon: Icon(Icons.phone, color: primaryColor),
+                hintText: '555 555 555 ',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                filled: true,
+                fillColor: surfaceColor,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                labelStyle: TextStyle(color: primaryColor.withOpacity(0.7)),
+              ),
+            ), // ✔ FIXED
+            const SizedBox(height: 16),
+
+            /// ---------------- BUTTON ADD TO CART ----------------
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/cart_screen');
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1A2B4C),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 15),
+                backgroundColor: primaryColor, // ✔ même style Register
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: const Text(
+                "Add to Cart",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white, // ✔ cohérent Register
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            /// ---------------- REVIEWS SECTION ----------------
+            Text(
+              "Write a Review",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: textColorPrimary,
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            TextField(
+              maxLines: 3,
+              decoration: InputDecoration(
+                hintText: "Write your review...",
+                filled: true,
+                fillColor: surfaceColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryColor, // ✔ même style Register
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text('Add to Cart'),
-            ),
-          ),
-          const SizedBox(height: 30),
-
-     
-          const Text(
-            'Comments',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16),
-
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              final comments = [
-                {'user': 'Alice', 'text': 'Great product! Very comfortable to wear.', 'date': 'Oct 5, 2025'},
-                {'user': 'Bob', 'text': 'Good sound quality, battery lasts long.', 'date': 'Oct 3, 2025'},
-                {'user': 'Charlie', 'text': 'Worth the price!', 'date': 'Oct 1, 2025'},
-              ];
-              final comment = comments[index];
-              return Card(
-                margin: const EdgeInsets.only(bottom: 8),
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.grey[200],
-                            child: Text(comment['user']![0]),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  comment['user']!,
-                                  style: const TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  comment['date']!,
-                                  style: const TextStyle(fontSize: 12, color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Text(comment['text']!),
-                    ],
-                  ),
+              child: const Text(
+                "Submit Review",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
-              );
-            },
-          ),
-          const SizedBox(height: 30),
-
-          const Text(
-            'Add a Comment',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          TextField(
-            decoration: InputDecoration(
-              hintText: 'Write your comment here...',
-              border: OutlineInputBorder(),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.send),
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Comment sent!')),
-                  );
-                },
               ),
             ),
-          ),
-          const SizedBox(height: 40),
-        ],
+            const SizedBox(height: 30),
+          ],
+        ),
       ),
     );
   }

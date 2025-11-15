@@ -1,3 +1,4 @@
+// lib/widgets/product_card.dart
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
@@ -28,23 +29,30 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color primaryColor = const Color(0xFF2C3E50);
+    final Color secondaryColor = const Color(0xFFFF6B6B);
+
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
-        width: 190, // ✅ Aligné avec itemExtent du ListView
+        width: 190,
         child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: BorderSide(color: Colors.grey[200]!, width: 0.5),
+          ),
+          elevation: 2,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Image + Badge + Coeur
               Stack(
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                     child: Image.asset(
                       imageUrl,
-                      height: 140, // ✅ Réduit pour gagner de la hauteur
+                      height: 140,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
@@ -55,7 +63,7 @@ class ProductCard extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
                       decoration: BoxDecoration(
-                        color: Colors.orange,
+                        color: secondaryColor,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
@@ -82,32 +90,27 @@ class ProductCard extends StatelessWidget {
                   ),
                 ],
               ),
-
-              // Contenu inférieur (nom, prix, note, bouton)
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 6, 10, 8), // ✅ Padding réduit
+                padding: const EdgeInsets.fromLTRB(10, 6, 10, 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Nom du produit — max 2 lignes
                     Text(
                       name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                         fontSize: 14,
                       ),
                     ),
                     const SizedBox(height: 2),
-
-                    // Prix
                     Row(
                       children: [
                         Text(
                           '\$${price.toStringAsFixed(2)}',
                           style: const TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w700,
                             fontSize: 15,
                             color: Colors.black,
                           ),
@@ -124,8 +127,6 @@ class ProductCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 2),
-
-                    // Note
                     Row(
                       children: [
                         const Icon(Icons.star, color: Colors.yellow, size: 14),
@@ -139,23 +140,21 @@ class ProductCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 6),
-
-                    // Bouton "Add"
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: onAddToCart,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF1A2B4C),
+                          backgroundColor: primaryColor,
                           foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 4), // ✅ Moins de padding
+                          padding: const EdgeInsets.symmetric(vertical: 4),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6),
                           ),
                         ),
                         child: const Text(
                           'Add',
-                          style: TextStyle(fontSize: 11), // ✅ Taille réduite
+                          style: TextStyle(fontSize: 11),
                         ),
                       ),
                     ),
